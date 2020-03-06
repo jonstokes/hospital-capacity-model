@@ -5,16 +5,16 @@ export default class Controls extends Component {
   constructor() {
     /* 1. Initialize Ref */
     super(); 
-    this.lengthOfStay = React.createRef();
+    this.lengthOfOutbreak = React.createRef();
     this.infectionRate = React.createRef();
     this.hospitalRate = React.createRef();
     this.icuRate = React.createRef();
     this.fatalityRate = React.createRef();
  }
 
- handleLengthOfStayChange() {
-    const value = this.lengthOfStay.current.value
-    this.props.updateLengthOfStay(value)
+ handleLengthOfOutbreakChange() {
+    const value = this.lengthOfOutbreak.current.value
+    this.props.updateLengthOfOutbreak(value)
  }
 
  handleInfectionRateChange() {
@@ -42,11 +42,11 @@ handleFatalityRateChange() {
       <div style={{ paddingTop: '2rem' }}>
         <InputGroup className="mb-3">
           <InputGroup.Prepend>
-            <InputGroup.Text id="inputGroup-sizing-default">Length of stay</InputGroup.Text>
+            <InputGroup.Text id="inputGroup-sizing-default">Length of Outbreak</InputGroup.Text>
           </InputGroup.Prepend>
           <FormControl
-            ref={this.lengthOfStay}
-            onChange={() => this.handleLengthOfStayChange()}
+            ref={this.lengthOfOutbreak}
+            onChange={() => this.handleLengthOfOutbreakChange()}
             aria-label="Default"
             aria-describedby="inputGroup-sizing-default"
           />
@@ -85,7 +85,7 @@ handleFatalityRateChange() {
           </InputGroup.Prepend>
           <FormControl
             ref={this.icuRate}
-            onChange={() => this.handleLengthOfStayChange()}
+            onChange={() => this.handleLengthOfOutbreakChange()}
             aria-label="Default"
             aria-describedby="inputGroup-sizing-default"
           />
