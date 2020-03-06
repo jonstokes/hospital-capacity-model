@@ -69,12 +69,14 @@ export default class MainPanel extends Component {
         <Card.Body>
           <Card.Title>Hospital Capacity</Card.Title>
           <Card.Text>
-            Some quick example text to build on the card title and make up the bulk of
-            the card's content.
+            A small widget to help visualize hospital overcapacity problems in the COVID-19 epidemic.
           </Card.Text>
-          <Figure>
+          <Figure
+            width="100%"
+            height="100%"
+          >
             <Chart
-              lengthOfOutbreak={Number(lengthOfOutbreak)}
+              lengthOfOutbreak={lengthOfOutbreak}
               infections={this.infections()}
               hospital={this.hospital()}
               icu={this.hospital()}
