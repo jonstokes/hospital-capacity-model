@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { Card, Figure } from 'react-bootstrap'
 import Chart from './Chart.js'
 import Controls from './Controls.js'
+import Results from './Results.js'
 
 export default class MainPanel extends Component {
   constructor() {
@@ -13,6 +14,8 @@ export default class MainPanel extends Component {
       icuRate: 5,
       fatalityRate: 2.3
     };
+
+    this.population = 327000000.0
   }
 
   updateLengthOfStay = (value) => {
@@ -35,8 +38,31 @@ export default class MainPanel extends Component {
     this.setState({ fatalityRate: value })
   }
 
+  infections() {
+    const infectionRate = this.state.infectionRate / 100
+    return this.population * infectionRate
+  }
+
+  hospital() {
+    const hospitalRate = this.state.hospitalRate / 100
+
+    return this.infections() * hospitalRate
+  }
+
+  icu() {
+    const icuRate = this.state.icuRate / 100
+
+    return this.infections() * icuRate
+  }
+
+  deaths() {
+    const fatalityRate = this.state.fatalityRate / 100
+
+    return this.infections() * fatalityRate
+  }
+
   render() {
-    const { lengthOfStay } = this.state;
+    const { fatalityRate } = this.state;
 
     return (
       <Card style={{ width: '40rem' }}>
@@ -56,7 +82,16 @@ export default class MainPanel extends Component {
             updateIcuRate={this.updateIcuRate}
             updateFatalityRate={this.updateFatalityRate}
           />
-          <div>{lengthOfStay}</div>
+          <Figure>
+            <div style={{ width: '30rem', paddingTop: '2rem' }}>
+              <Results
+                infections={this.infections()}
+                hospital={this.hospital()}
+                icu={this.icu()}
+                deaths={this.deaths()}
+              />
+            </div>
+          </Figure>
         </Card.Body>
       </Card>
     );
