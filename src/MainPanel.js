@@ -7,12 +7,32 @@ export default class MainPanel extends Component {
   constructor() {
     super(); 
     this.state = {
-      lengthOfStay: 10
+      lengthOfStay: 10,
+      infectionRate: 10,
+      hospitalRate: 20,
+      icuRate: 5,
+      fatalityRate: 2.3
     };
   }
 
-  updateLengthOfStay = (newLengthOfStay) => {
-    this.setState({ lengthOfStay: newLengthOfStay })
+  updateLengthOfStay = (value) => {
+    this.setState({ lengthOfStay: value })
+  }
+
+  updateInfectionRate = (value) => {
+    this.setState({ infectionRate: value })
+  }
+
+  updateHospitalRate = (value) => {
+    this.setState({ hospitalRate: value })
+  }
+
+  updateIcuRate = (value) => {
+    this.setState({ icuRate: value })
+  }
+
+  updateFatalityRate = (value) => {
+    this.setState({ fatalityRate: value })
   }
 
   render() {
@@ -31,6 +51,10 @@ export default class MainPanel extends Component {
           </Figure>
           <Controls 
             updateLengthOfStay={this.updateLengthOfStay}
+            updateInfectionRate={this.updateInfectionRate}
+            updateHospitalRate={this.updateHospitalRate}
+            updateIcuRate={this.updateIcuRate}
+            updateFatalityRate={this.updateFatalityRate}
           />
           <div>{lengthOfStay}</div>
         </Card.Body>
