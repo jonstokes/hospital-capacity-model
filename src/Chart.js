@@ -8,17 +8,8 @@ function stdNormalDistribution (x) {
 }
 
 export default class Example extends PureComponent {
-  lengthOfOutbreak() {
-    const { lengthOfOutbreak } = this.props
-    if(typeof(lengthOfOutbreak) == 'string') {
-      return Number(lengthOfOutbreak)
-    } else {
-      return lengthOfOutbreak
-    }
-  }
-
   computeNormalForDay(day, totalBedsNeeded) {
-    const lengthOfOutbreak = this.lengthOfOutbreak();
+    const { lengthOfOutbreak } = this.props;
     const midpoint = lengthOfOutbreak / 2.0;
     const scalingFactor = 8.0 / lengthOfOutbreak;
     const normalizedBedCount = stdNormalDistribution((day - midpoint) * scalingFactor);
@@ -27,8 +18,7 @@ export default class Example extends PureComponent {
   }
 
   generateData() {
-    const { hospital, icu, deaths } = this.props;
-    const lengthOfOutbreak = this.lengthOfOutbreak();
+    const { hospital, icu, deaths, lengthOfOutbreak } = this.props;
     const dayRange = [...Array(lengthOfOutbreak).keys()];
     const bedData = dayRange.map((day) => {
       return({ 

@@ -13,27 +13,27 @@ export default class Controls extends Component {
  }
 
  handleLengthOfOutbreakChange() {
-    const value = this.lengthOfOutbreak.current.value
+    const value = Number(this.lengthOfOutbreak.current.value)
     this.props.updateLengthOfOutbreak(value)
  }
 
  handleInfectionRateChange() {
-  const value = this.infectionRate.current.value
+  const value = Number(this.infectionRate.current.value)
   this.props.updateInfectionRate(value)
 }
 
  handleHospitalRateChange() {
-  const value = this.hospitalRate.current.value
+  const value = Number(this.hospitalRate.current.value)
   this.props.updateHospitalRate(value)
 }
 
 handleIcuRateChange() {
-  const value = this.icuRate.current.value
+  const value = Number(this.icuRate.current.value)
   this.props.updateIcuRate(value)
 }
 
 handleFatalityRateChange() {
-  const value = this.fatalityRate.current.value
+  const value = Number(this.fatalityRate.current.value)
   this.props.updateFatalityRate(value)
 }
 
