@@ -5,16 +5,18 @@ export default class Controls extends Component {
   constructor() {
     /* 1. Initialize Ref */
     super(); 
-    this.textInput = React.createRef(); 
+    this.lengthOfStay = React.createRef(); 
  }
 
- handleChange() {
+ handleLengthOfStayChange() {
+    // const updateLengthOfStay = this.props.updateLengthOfStay;
+
     /* 3. Get Ref Value here (or anywhere in the code!) */
-    const value = this.textInput.current.value
-    console.log(value)
+    const value = this.lengthOfStay.current.value
+    this.props.updateLengthOfStay(value)
  }
 
- render() {
+ render() {   
     return (
       <div style={{ paddingTop: '2rem' }}>
         <InputGroup className="mb-3">
@@ -22,8 +24,8 @@ export default class Controls extends Component {
             <InputGroup.Text id="inputGroup-sizing-default">Length of stay</InputGroup.Text>
           </InputGroup.Prepend>
           <FormControl
-            ref={this.textInput}
-            onChange={() => this.handleChange()}
+            ref={this.lengthOfStay}
+            onChange={() => this.handleLengthOfStayChange()}
             aria-label="Default"
             aria-describedby="inputGroup-sizing-default"
           />
