@@ -8,9 +8,8 @@ export default class Chart extends PureComponent {
   computeNormalForDay(day, total) {
     const { lengthOfOutbreak } = this.props;
     const midpoint = lengthOfOutbreak / 2.0;
-    const scalingFactor = 8.0 / lengthOfOutbreak;
-    const termForNormalizing = (day - midpoint) * scalingFactor
-    const normalizedBedCount = jstat.normal.pdf(termForNormalizing, 0, 1.0);
+    const scalingFactor = 1;
+    const normalizedBedCount = jstat.normal.pdf(day, midpoint, 50);
 
     return(normalizedBedCount * total)
   }
