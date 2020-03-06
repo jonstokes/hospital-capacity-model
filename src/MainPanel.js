@@ -71,7 +71,12 @@ export default class MainPanel extends Component {
             the card's content.
           </Card.Text>
           <Figure>
-            <Chart />
+            <Chart 
+              infections={this.infections()}
+              hospital={this.hospital()}
+              icu={this.hospital()}
+              deaths={this.deaths()}
+            />
           </Figure>
           <Controls 
             updateLengthOfStay={this.updateLengthOfStay}
