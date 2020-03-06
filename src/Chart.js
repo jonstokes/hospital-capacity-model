@@ -7,7 +7,7 @@ function stdNormalDistribution (x) {
   return Math.pow(Math.E,-Math.pow(x,2)/2)/Math.sqrt(2*Math.PI);
 }
 
-export default class Example extends PureComponent {
+export default class Chart extends PureComponent {
   computeNormalForDay(day, totalBedsNeeded) {
     const { lengthOfOutbreak } = this.props;
     const midpoint = lengthOfOutbreak / 2.0;
