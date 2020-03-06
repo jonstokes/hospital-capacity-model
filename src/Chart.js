@@ -8,13 +8,13 @@ function stdNormalDistribution (x) {
 }
 
 export default class Chart extends PureComponent {
-  computeNormalForDay(day, totalBedsNeeded) {
+  computeNormalForDay(day, total) {
     const { lengthOfOutbreak } = this.props;
     const midpoint = lengthOfOutbreak / 2.0;
     const scalingFactor = 8.0 / lengthOfOutbreak;
     const normalizedBedCount = stdNormalDistribution((day - midpoint) * scalingFactor);
 
-    return(normalizedBedCount * totalBedsNeeded)
+    return(normalizedBedCount * total)
   }
 
   generateData() {
