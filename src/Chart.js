@@ -2,17 +2,15 @@ import React, { PureComponent } from 'react';
 import {
   AreaChart, Area, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer, ReferenceLine
 } from 'recharts';
-
-function stdNormalDistribution (x) {
-  return Math.pow(Math.E,-Math.pow(x,2)/2)/Math.sqrt(2*Math.PI);
-}
+import jstat from 'jstat';
 
 export default class Chart extends PureComponent {
   computeNormalForDay(day, total) {
     const { lengthOfOutbreak } = this.props;
     const midpoint = lengthOfOutbreak / 2.0;
     const scalingFactor = 8.0 / lengthOfOutbreak;
-    const normalizedBedCount = stdNormalDistribution((day - midpoint) * scalingFactor);
+    const termForNormalizing = (day - midpoint) * scalingFactor
+    const normalizedBedCount = jstat.normal.pdf(termForNormalizing, 0, 1.0);
 
     return(normalizedBedCount * total)
   }
