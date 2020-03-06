@@ -1,7 +1,7 @@
 import React, { PureComponent } from 'react';
 import { Card } from 'react-bootstrap'
 import Chart from './Chart.js'
-
+import Controls from './Controls.js'
 
 export default class MainPanel extends PureComponent {
   render() {
@@ -14,6 +14,7 @@ export default class MainPanel extends PureComponent {
             the card's content.
           </Card.Text>
           <Chart />
+          <Controls />
         </Card.Body>
       </Card>
     );
