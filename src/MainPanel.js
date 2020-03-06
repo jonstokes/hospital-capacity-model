@@ -62,8 +62,6 @@ export default class MainPanel extends Component {
   }
 
   render() {
-    const { fatalityRate } = this.state;
-
     return (
       <Card style={{ width: '40rem' }}>
         <Card.Body>
