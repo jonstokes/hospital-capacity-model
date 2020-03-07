@@ -7,9 +7,6 @@ import jstat from 'jstat';
 const hospitalStayLength = 15
 const icuStayLength = 10
 
-const hospitalRate = 20 / 100
-const icuRate = 5 / 100
-
 export default class Chart extends PureComponent {
   updateNewInfections() {
     const { infections, lengthOfOutbreak } = this.props;
@@ -31,7 +28,7 @@ export default class Chart extends PureComponent {
     let infectionsStillInHospital = 0;
 
     [...Array(hospitalStayLength).keys()].forEach(offset => {
-      infectionsStillInHospital += (array[day - offset] ? array[day - offset] : 0) * hospitalRate
+      infectionsStillInHospital += (array[day - offset] ? array[day - offset] : 0) * this.props.hospitalRate
     })
     return Math.round(infectionsStillInHospital);
   }
@@ -41,7 +38,7 @@ export default class Chart extends PureComponent {
     let infectionsStillIcu = 0;
 
     [...Array(icuStayLength).keys()].forEach(offset => {
-      infectionsStillIcu += (array[day - offset] ? array[day - offset] : 0) * icuRate
+      infectionsStillIcu += (array[day - offset] ? array[day - offset] : 0) * this.props.icuRate
     })
 
     return Math.round(infectionsStillIcu);

@@ -63,6 +63,8 @@ export default class MainPanel extends Component {
 
   render() {
     const { lengthOfOutbreak } = this.state;
+    const hospitalRate = this.state.hospitalRate / 100
+    const icuRate = this.state.icuRate / 100
 
     return (
       <Card style={{ width: '60rem' }}>
@@ -78,8 +80,8 @@ export default class MainPanel extends Component {
             <Chart
               lengthOfOutbreak={lengthOfOutbreak}
               infections={this.infections()}
-              hospital={this.hospital()}
-              icu={this.icu()}
+              hospitalRate={hospitalRate}
+              icuRate={icuRate}
               deaths={this.deaths()}
             />
           </Figure>
