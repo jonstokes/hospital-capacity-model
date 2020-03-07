@@ -1,4 +1,6 @@
 export default {
+  usedBedsHospital: 0,
+  usedBedsIcu: 0,
   lengthOfOutbreak: 365,
   infectionRate: 10,
   hospitalRate: 20,
