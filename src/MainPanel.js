@@ -81,6 +81,16 @@ export default class MainPanel extends Component {
             />
           </Figure>
           <Figure>
+            <div style={{ width: '30rem', paddingTop: '1rem' }}>
+              <Results
+                infections={this.infections()}
+                hospital={this.hospital()}
+                icu={this.icu()}
+                deaths={this.deaths()}
+              />
+            </div>
+          </Figure>
+          <Figure>
             <Controls 
               updateLengthOfOutbreak={this.updateLengthOfOutbreak}
               updateInfectionRate={this.updateInfectionRate}
@@ -89,16 +99,6 @@ export default class MainPanel extends Component {
               updateFatalityRate={this.updateFatalityRate}
               defaultLengthOfOutbreak={this.defaultLengthOfOutbreak}
             />
-          </Figure>
-          <Figure>
-            <div style={{ width: '30rem', paddingTop: '2rem' }}>
-              <Results
-                infections={this.infections()}
-                hospital={this.hospital()}
-                icu={this.icu()}
-                deaths={this.deaths()}
-              />
-            </div>
           </Figure>
         </Card.Body>
       </Card>

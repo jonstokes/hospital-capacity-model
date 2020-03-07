@@ -40,7 +40,7 @@ handleFatalityRateChange() {
 
  render() {   
     return (
-      <div style={{ paddingTop: '2rem', width: '30rem' }}>
+      <div style={{ width: '30rem' }}>
         <InputGroup className="mb-3">
           <FormControl
             ref={this.lengthOfOutbreak}
