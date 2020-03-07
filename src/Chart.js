@@ -4,9 +4,6 @@ import {
 } from 'recharts';
 import jstat from 'jstat';
 
-const hospitalStayLength = 15
-const icuStayLength = 10
-
 export default class Chart extends PureComponent {
   updateNewInfections() {
     const { infections, lengthOfOutbreak } = this.props;
@@ -25,6 +22,7 @@ export default class Chart extends PureComponent {
 
   computeHospitalForDay(day) {
     const array = this.newInfections;
+    const { hospitalStayLength } = this.props;
     let infectionsStillInHospital = 0;
 
     [...Array(hospitalStayLength).keys()].forEach(offset => {
@@ -35,6 +33,7 @@ export default class Chart extends PureComponent {
 
   computeIcuForDay(day) {
     const array = this.newInfections;
+    const { icuStayLength } = this.props;
     let infectionsStillIcu = 0;
 
     [...Array(icuStayLength).keys()].forEach(offset => {

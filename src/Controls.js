@@ -11,6 +11,8 @@ export default class Controls extends Component {
     this.hospitalRate = React.createRef();
     this.icuRate = React.createRef();
     this.fatalityRate = React.createRef();
+    this.hospitalStayLength = React.createRef();
+    this.icuStayLength = React.createRef();
  }
 
  handleLengthOfOutbreakChange() {
@@ -38,6 +40,16 @@ handleFatalityRateChange() {
   this.props.updateFatalityRate(value)
 }
 
+handleHospitalStayLengthChange() {
+  const value = Number(this.hospitalStayLength.current.value)
+  this.props.updateHospitalStayLength(value)
+}
+
+handleIcuStayLengthChange() {
+  const value = Number(this.icuStayLength.current.value)
+  this.props.updateIcuStayLength(value)
+}
+
  render() {   
     return (
       <div style={{ width: '30rem' }}>
@@ -54,7 +66,7 @@ handleFatalityRateChange() {
           </InputGroup.Append>
 
         </InputGroup>
-        <br />
+
         <InputGroup className="mb-3">
           <InputGroup.Prepend>
             <InputGroup.Text>%</InputGroup.Text>
@@ -69,9 +81,8 @@ handleFatalityRateChange() {
           <InputGroup.Append>
             <InputGroup.Text id="inputGroup-sizing-default">Infection rate</InputGroup.Text>
           </InputGroup.Append>
-
         </InputGroup>
-        <br />
+
         <InputGroup className="mb-3">
           <InputGroup.Prepend>
           <InputGroup.Text>%</InputGroup.Text>
@@ -86,9 +97,8 @@ handleFatalityRateChange() {
           <InputGroup.Append>
             <InputGroup.Text id="inputGroup-sizing-default">Hospitalization rate</InputGroup.Text>
           </InputGroup.Append>
-
         </InputGroup>
-        <br />
+
         <InputGroup className="mb-3">
           <InputGroup.Prepend>
             <InputGroup.Text>%</InputGroup.Text>
@@ -104,7 +114,7 @@ handleFatalityRateChange() {
             <InputGroup.Text id="inputGroup-sizing-default">ICU rate</InputGroup.Text>
           </InputGroup.Append>
         </InputGroup>
-        <br />
+
         <InputGroup className="mb-3">
           <InputGroup.Prepend>
             <InputGroup.Text>%</InputGroup.Text>
@@ -118,6 +128,38 @@ handleFatalityRateChange() {
           />
           <InputGroup.Append>
             <InputGroup.Text id="inputGroup-sizing-default">Case fatality rate</InputGroup.Text>
+          </InputGroup.Append>
+        </InputGroup>
+
+        <InputGroup className="mb-3">
+          <InputGroup.Prepend>
+            <InputGroup.Text>Days</InputGroup.Text>
+          </InputGroup.Prepend>
+          <FormControl
+            ref={this.hospitalStayLength}
+            defaultValue={Defaults.hospitalStayLength}
+            onChange={() => this.handleHospitalStayLengthChange()}  
+            aria-label="Default"
+            aria-describedby="inputGroup-sizing-default"
+          />
+          <InputGroup.Append>
+            <InputGroup.Text id="inputGroup-sizing-default">Hospital stay</InputGroup.Text>
+          </InputGroup.Append>
+        </InputGroup>
+
+        <InputGroup className="mb-3">
+          <InputGroup.Prepend>
+            <InputGroup.Text>Days</InputGroup.Text>
+          </InputGroup.Prepend>
+          <FormControl
+            ref={this.icuStayLength}
+            defaultValue={Defaults.icuStayLength}
+            onChange={() => this.handleIcuStayLengthChange()}  
+            aria-label="Default"
+            aria-describedby="inputGroup-sizing-default"
+          />
+          <InputGroup.Append>
+            <InputGroup.Text id="inputGroup-sizing-default">ICU stay</InputGroup.Text>
           </InputGroup.Append>
         </InputGroup>
       </div>

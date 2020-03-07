@@ -33,6 +33,14 @@ export default class MainPanel extends Component {
     this.setState({ fatalityRate: value })
   }
 
+  updateHospitalStayLength = (value) => {
+    this.setState({ hospitalStayLength: value })
+  }
+
+  updateIcuStayLength = (value) => {
+    this.setState({ icuStayLength: value })
+  }
+
   infections() {
     const infectionRate = this.state.infectionRate / 100
     return this.population * infectionRate
@@ -57,7 +65,7 @@ export default class MainPanel extends Component {
   }
 
   render() {
-    const { lengthOfOutbreak } = this.state;
+    const { lengthOfOutbreak, hospitalStayLength, icuStayLength } = this.state;
     const hospitalRate = this.state.hospitalRate / 100
     const icuRate = this.state.icuRate / 100
 
@@ -77,6 +85,8 @@ export default class MainPanel extends Component {
               infections={this.infections()}
               hospitalRate={hospitalRate}
               icuRate={icuRate}
+              hospitalStayLength={hospitalStayLength}
+              icuStayLength={icuStayLength}
               deaths={this.deaths()}
             />
           </Figure>
@@ -97,7 +107,8 @@ export default class MainPanel extends Component {
               updateHospitalRate={this.updateHospitalRate}
               updateIcuRate={this.updateIcuRate}
               updateFatalityRate={this.updateFatalityRate}
-              defaultLengthOfOutbreak={this.defaultLengthOfOutbreak}
+              updateIcuStayLength={this.updateIcuStayLength}
+              updateHospitalStayLength={this.updateHospitalStayLength}
             />
           </Figure>
         </Card.Body>
