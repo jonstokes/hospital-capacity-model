@@ -72,7 +72,7 @@ handleFatalityRateChange() {
           </InputGroup.Prepend>
           <FormControl
             ref={this.hospitalRate}
-            onChange={() => this.handleIcuRateChange()}
+            onChange={() => this.handleHospitalRateChange()}
             aria-label="Default"
             aria-describedby="inputGroup-sizing-default"
           />
@@ -85,7 +85,7 @@ handleFatalityRateChange() {
           </InputGroup.Prepend>
           <FormControl
             ref={this.icuRate}
-            onChange={() => this.handleLengthOfOutbreakChange()}
+            onChange={() => this.handleIcuRateChange()}
             aria-label="Default"
             aria-describedby="inputGroup-sizing-default"
           />

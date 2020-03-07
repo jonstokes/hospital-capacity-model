@@ -8,7 +8,7 @@ export default class MainPanel extends Component {
   constructor() {
     super(); 
     this.state = {
-      lengthOfOutbreak: 365,
+      lengthOfOutbreak: 50,
       infectionRate: 10,
       hospitalRate: 20,
       icuRate: 5,
@@ -79,7 +79,7 @@ export default class MainPanel extends Component {
               lengthOfOutbreak={lengthOfOutbreak}
               infections={this.infections()}
               hospital={this.hospital()}
-              icu={this.hospital()}
+              icu={this.icu()}
               deaths={this.deaths()}
             />
           </Figure>

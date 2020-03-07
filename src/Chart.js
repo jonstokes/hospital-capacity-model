@@ -8,8 +8,7 @@ export default class Chart extends PureComponent {
   computeNormalForDay(day, total) {
     const { lengthOfOutbreak } = this.props;
     const midpoint = lengthOfOutbreak / 2.0;
-    const scalingFactor = 1;
-    const normalizedBedCount = jstat.normal.pdf(day, midpoint, 50);
+    const normalizedBedCount = jstat.normal.pdf(day, midpoint, 5);
 
     return(normalizedBedCount * total)
   }
@@ -25,29 +24,35 @@ export default class Chart extends PureComponent {
         deaths: this.computeNormalForDay(day, deaths)
       })
     });
-
     return bedData
   }
 
   render() {
     const bedData = this.generateData();
+    const reducer = (accumulator, currentValue) => accumulator + currentValue.hospital;
+    const totalHospital = bedData.reduce(reducer, 0);
+    console.log(totalHospital)
 
     return (
-      <ResponsiveContainer width={600} height={500}>
+      <ResponsiveContainer width={700} height={500}>
         <AreaChart
           width={500}
           height={400}
           data={bedData}
           margin={{
-            top: 10, right: 30, left: 0, bottom: 0,
+            top: 10, right: 30, left: 30, bottom: 0,
           }}
         >
           <CartesianGrid strokeDasharray="3 3" />
-          <XAxis dataKey="name" />
-          <YAxis />
+          <XAxis 
+            dataKey="name"
+            allowDecimals={false}
+          />
+          <YAxis 
+            allowDecimals={false}
+          />
           <Tooltip />
-          <ReferenceLine y={937000} label="Beds" stroke="red" strokeDasharray="3 3" />
-          <Area type="monotone" dataKey="deaths" stackId="1" stroke="#ffc658" fill="#ffc658" />
+          <ReferenceLine y={90000} label="ICU Beds" stroke="red" strokeDasharray="3 3" />
           <Area type="monotone" dataKey="icu" stackId="1" stroke="#82ca9d" fill="#82ca9d" />
           <Area type="monotone" dataKey="hospital" stackId="1" stroke="#8884d8" fill="#8884d8" />
         </AreaChart>
