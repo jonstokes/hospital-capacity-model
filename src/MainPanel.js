@@ -8,7 +8,7 @@ export default class MainPanel extends Component {
   constructor() {
     super(); 
     this.state = {
-      lengthOfOutbreak: 50,
+      lengthOfOutbreak: 80,
       infectionRate: 10,
       hospitalRate: 20,
       icuRate: 5,
@@ -65,7 +65,7 @@ export default class MainPanel extends Component {
     const { lengthOfOutbreak } = this.state;
 
     return (
-      <Card style={{ width: '40rem' }}>
+      <Card style={{ width: '60rem' }}>
         <Card.Body>
           <Card.Title>Hospital Capacity</Card.Title>
           <Card.Text>
@@ -83,13 +83,15 @@ export default class MainPanel extends Component {
               deaths={this.deaths()}
             />
           </Figure>
-          <Controls 
-            updateLengthOfOutbreak={this.updateLengthOfOutbreak}
-            updateInfectionRate={this.updateInfectionRate}
-            updateHospitalRate={this.updateHospitalRate}
-            updateIcuRate={this.updateIcuRate}
-            updateFatalityRate={this.updateFatalityRate}
-          />
+          <Figure>
+            <Controls 
+              updateLengthOfOutbreak={this.updateLengthOfOutbreak}
+              updateInfectionRate={this.updateInfectionRate}
+              updateHospitalRate={this.updateHospitalRate}
+              updateIcuRate={this.updateIcuRate}
+              updateFatalityRate={this.updateFatalityRate}
+            />
+          </Figure>
           <Figure>
             <div style={{ width: '30rem', paddingTop: '2rem' }}>
               <Results

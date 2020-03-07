@@ -39,23 +39,24 @@ handleFatalityRateChange() {
 
  render() {   
     return (
-      <div style={{ paddingTop: '2rem' }}>
+      <div style={{ paddingTop: '2rem', width: '30rem' }}>
         <InputGroup className="mb-3">
-          <InputGroup.Prepend>
-            <InputGroup.Text id="inputGroup-sizing-default">Length of Outbreak</InputGroup.Text>
-          </InputGroup.Prepend>
           <FormControl
             ref={this.lengthOfOutbreak}
             onChange={() => this.handleLengthOfOutbreakChange()}
+            defaultValue={365}
             aria-label="Default"
             aria-describedby="inputGroup-sizing-default"
           />
+          <InputGroup.Append>
+            <InputGroup.Text id="inputGroup-sizing-default">Length of Outbreak</InputGroup.Text>
+          </InputGroup.Append>
+
         </InputGroup>
         <br />
         <InputGroup className="mb-3">
           <InputGroup.Prepend>
-          <InputGroup.Text>%</InputGroup.Text>
-            <InputGroup.Text id="inputGroup-sizing-default">Infection rate</InputGroup.Text>
+            <InputGroup.Text>%</InputGroup.Text>
           </InputGroup.Prepend>
           <FormControl
             ref={this.infectionRate}
@@ -63,12 +64,15 @@ handleFatalityRateChange() {
             aria-label="Default"
             aria-describedby="inputGroup-sizing-default"
           />
+          <InputGroup.Append>
+            <InputGroup.Text id="inputGroup-sizing-default">Infection rate</InputGroup.Text>
+          </InputGroup.Append>
+
         </InputGroup>
         <br />
         <InputGroup className="mb-3">
           <InputGroup.Prepend>
           <InputGroup.Text>%</InputGroup.Text>
-            <InputGroup.Text id="inputGroup-sizing-default">Hospitalization rate</InputGroup.Text>
           </InputGroup.Prepend>
           <FormControl
             ref={this.hospitalRate}
@@ -76,12 +80,15 @@ handleFatalityRateChange() {
             aria-label="Default"
             aria-describedby="inputGroup-sizing-default"
           />
+          <InputGroup.Append>
+            <InputGroup.Text id="inputGroup-sizing-default">Hospitalization rate</InputGroup.Text>
+          </InputGroup.Append>
+
         </InputGroup>
         <br />
         <InputGroup className="mb-3">
           <InputGroup.Prepend>
-          <InputGroup.Text>%</InputGroup.Text>
-            <InputGroup.Text id="inputGroup-sizing-default">ICU rate</InputGroup.Text>
+            <InputGroup.Text>%</InputGroup.Text>
           </InputGroup.Prepend>
           <FormControl
             ref={this.icuRate}
@@ -89,12 +96,14 @@ handleFatalityRateChange() {
             aria-label="Default"
             aria-describedby="inputGroup-sizing-default"
           />
+          <InputGroup.Append>
+            <InputGroup.Text id="inputGroup-sizing-default">ICU rate</InputGroup.Text>
+          </InputGroup.Append>
         </InputGroup>
         <br />
         <InputGroup className="mb-3">
           <InputGroup.Prepend>
-          <InputGroup.Text>%</InputGroup.Text>
-            <InputGroup.Text id="inputGroup-sizing-default">Case fatality rate</InputGroup.Text>
+            <InputGroup.Text>%</InputGroup.Text>
           </InputGroup.Prepend>
           <FormControl
             ref={this.fatalityRate}
@@ -102,6 +111,9 @@ handleFatalityRateChange() {
             aria-label="Default"
             aria-describedby="inputGroup-sizing-default"
           />
+          <InputGroup.Append>
+            <InputGroup.Text id="inputGroup-sizing-default">Case fatality rate</InputGroup.Text>
+          </InputGroup.Append>
         </InputGroup>
       </div>
     );

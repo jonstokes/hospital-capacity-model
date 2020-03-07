@@ -4,11 +4,15 @@ import {
 } from 'recharts';
 import jstat from 'jstat';
 
+const hospitalStayLength = 15
+const icuStayLength = 10
+
 export default class Chart extends PureComponent {
   computeNormalForDay(day, total) {
     const { lengthOfOutbreak } = this.props;
     const midpoint = lengthOfOutbreak / 2.0;
-    const normalizedBedCount = jstat.normal.pdf(day, midpoint, 5);
+    const sigma = lengthOfOutbreak / 9
+    const normalizedBedCount = jstat.normal.pdf(day, midpoint, sigma);
 
     return(normalizedBedCount * total)
   }
@@ -19,8 +23,8 @@ export default class Chart extends PureComponent {
     const bedData = dayRange.map((day) => {
       return({ 
         name: day,
-        hospital: this.computeNormalForDay(day, hospital),
-        icu: this.computeNormalForDay(day, icu),
+        hospital: Math.round(this.computeNormalForDay(day, hospital * hospitalStayLength)),
+        icu: Math.round(this.computeNormalForDay(day, icu * icuStayLength)),
         deaths: this.computeNormalForDay(day, deaths)
       })
     });
@@ -31,7 +35,8 @@ export default class Chart extends PureComponent {
     const bedData = this.generateData();
     const reducer = (accumulator, currentValue) => accumulator + currentValue.hospital;
     const totalHospital = bedData.reduce(reducer, 0);
-    console.log(totalHospital)
+    console.log(this.props)
+    console.log(totalHospital / 15)
 
     return (
       <ResponsiveContainer width={700} height={500}>
@@ -52,8 +57,9 @@ export default class Chart extends PureComponent {
             allowDecimals={false}
           />
           <Tooltip />
+          <ReferenceLine y={900000} label="All Beds" stroke="red" strokeDasharray="3 3" />
           <ReferenceLine y={90000} label="ICU Beds" stroke="red" strokeDasharray="3 3" />
-          <Area type="monotone" dataKey="icu" stackId="1" stroke="#82ca9d" fill="#82ca9d" />
+          <Area type="monotone" dataKey="icu" stackId="2" stroke="#82ca9d" fill="#82ca9d" />
           <Area type="monotone" dataKey="hospital" stackId="1" stroke="#8884d8" fill="#8884d8" />
         </AreaChart>
       </ResponsiveContainer>
