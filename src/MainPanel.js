@@ -3,17 +3,12 @@ import { Card, Figure } from 'react-bootstrap'
 import Chart from './Chart.js'
 import Controls from './Controls.js'
 import Results from './Results.js'
+import Defaults from './Defaults.js'
 
 export default class MainPanel extends Component {
   constructor() {
     super(); 
-    this.state = {
-      lengthOfOutbreak: 365,
-      infectionRate: 10,
-      hospitalRate: 20,
-      icuRate: 5,
-      fatalityRate: 2.3
-    };
+    this.state = Defaults;
 
     this.population = 327000000.0
   }
@@ -92,6 +87,7 @@ export default class MainPanel extends Component {
               updateHospitalRate={this.updateHospitalRate}
               updateIcuRate={this.updateIcuRate}
               updateFatalityRate={this.updateFatalityRate}
+              defaultLengthOfOutbreak={this.defaultLengthOfOutbreak}
             />
           </Figure>
           <Figure>

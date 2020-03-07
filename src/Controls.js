@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import { InputGroup, FormControl } from 'react-bootstrap'
+import Defaults from './Defaults.js'
 
 export default class Controls extends Component {
   constructor() {
@@ -43,6 +44,7 @@ handleFatalityRateChange() {
         <InputGroup className="mb-3">
           <FormControl
             ref={this.lengthOfOutbreak}
+            defaultValue={Defaults.lengthOfOutbreak}
             onChange={() => this.handleLengthOfOutbreakChange()}
             aria-label="Default"
             aria-describedby="inputGroup-sizing-default"
@@ -59,6 +61,7 @@ handleFatalityRateChange() {
           </InputGroup.Prepend>
           <FormControl
             ref={this.infectionRate}
+            defaultValue={Defaults.infectionRate}
             onChange={() => this.handleInfectionRateChange()}
             aria-label="Default"
             aria-describedby="inputGroup-sizing-default"
@@ -75,6 +78,7 @@ handleFatalityRateChange() {
           </InputGroup.Prepend>
           <FormControl
             ref={this.hospitalRate}
+            defaultValue={Defaults.hospitalRate}
             onChange={() => this.handleHospitalRateChange()}
             aria-label="Default"
             aria-describedby="inputGroup-sizing-default"
@@ -91,6 +95,7 @@ handleFatalityRateChange() {
           </InputGroup.Prepend>
           <FormControl
             ref={this.icuRate}
+            defaultValue={Defaults.icuRate}
             onChange={() => this.handleIcuRateChange()}
             aria-label="Default"
             aria-describedby="inputGroup-sizing-default"
@@ -106,6 +111,7 @@ handleFatalityRateChange() {
           </InputGroup.Prepend>
           <FormControl
             ref={this.fatalityRate}
+            defaultValue={Defaults.fatalityRate}
             onChange={() => this.handleFatalityRateChange()}  
             aria-label="Default"
             aria-describedby="inputGroup-sizing-default"
