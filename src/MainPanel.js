@@ -70,12 +70,14 @@ export default class MainPanel extends Component {
     const icuRate = this.state.icuRate / 100
 
     return (
-      <Card style={{ width: '60rem' }}>
+      <Card style={{ width: '50rem' }}>
         <Card.Body>
           <Card.Title>Hospital Capacity</Card.Title>
           <Card.Text>
-            A small widget to help visualize hospital overcapacity problems in the COVID-19 epidemic.
+            Visualizing hospital overcapacity problems in the COVID-19 epidemic.
           </Card.Text>
+          <Card.Link href="https://theprepared.com/">The Prepared</Card.Link>
+          <br />
           <Figure
             width="100%"
             height="100%"

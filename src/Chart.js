@@ -70,7 +70,7 @@ export default class Chart extends PureComponent {
           height={400}
           data={bedData}
           margin={{
-            top: 10, right: 30, left: 30, bottom: 0,
+            top: 10, right: 20, left: 20, bottom: 0,
           }}
         >
           <CartesianGrid strokeDasharray="3 3" />
