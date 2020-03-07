@@ -58,6 +58,7 @@ export default class Chart extends PureComponent {
   }
 
   render() {
+    const { usedBedsHospital, usedBedsIcu } = this.props;
     const bedData = this.generateData();
     const reducer = (accumulator, currentValue) => accumulator + currentValue.hospital;
     const totalHospital = bedData.reduce(reducer, 0);
@@ -82,8 +83,8 @@ export default class Chart extends PureComponent {
             allowDecimals={false}
           />
           <Tooltip />
-          <ReferenceLine y={900000} label="All Beds" stroke="red" strokeDasharray="3 3" />
-          <ReferenceLine y={90000} label="ICU Beds" stroke="red" strokeDasharray="3 3" />
+          <ReferenceLine y={900000 - usedBedsHospital - usedBedsIcu} label="All Beds" stroke="red" strokeDasharray="3 3" />
+          <ReferenceLine y={90000 - usedBedsIcu} label="ICU Beds" stroke="red" strokeDasharray="3 3" />
           <Area type="monotone" dataKey="hospital" stackId="1" stroke="#8884d8" fill="#8884d8" />
           <Area type="monotone" dataKey="icu" stackId="2" stroke="#82ca9d" fill="#82ca9d" />
         </AreaChart>

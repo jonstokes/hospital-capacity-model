@@ -13,6 +13,14 @@ export default class MainPanel extends Component {
     this.population = 327000000.0
   }
 
+  updateUsedBedsHospital = (value) => {
+    this.setState({ usedBedsHospital: value })
+  }
+
+  updateUsedBedsIcu = (value) => {
+    this.setState({ usedBedsIcu: value })
+  }
+
   updateLengthOfOutbreak = (value) => {
     this.setState({ lengthOfOutbreak: value })
   }
@@ -65,7 +73,7 @@ export default class MainPanel extends Component {
   }
 
   render() {
-    const { lengthOfOutbreak, hospitalStayLength, icuStayLength } = this.state;
+    const { usedBedsHospital, usedBedsIcu, lengthOfOutbreak, hospitalStayLength, icuStayLength } = this.state;
     const hospitalRate = this.state.hospitalRate / 100
     const icuRate = this.state.icuRate / 100
 
@@ -83,6 +91,8 @@ export default class MainPanel extends Component {
             height="100%"
           >
             <Chart
+              usedBedsHospital={usedBedsHospital}
+              usedBedsIcu={usedBedsIcu}
               lengthOfOutbreak={lengthOfOutbreak}
               infections={this.infections()}
               hospitalRate={hospitalRate}
@@ -104,6 +114,8 @@ export default class MainPanel extends Component {
           </Figure>
           <Figure>
             <Controls 
+              updateUsedBedsHospital={this.updateUsedBedsHospital}
+              updateUsedBedsIcu={this.updateUsedBedsIcu}
               updateLengthOfOutbreak={this.updateLengthOfOutbreak}
               updateInfectionRate={this.updateInfectionRate}
               updateHospitalRate={this.updateHospitalRate}

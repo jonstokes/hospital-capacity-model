@@ -6,6 +6,8 @@ export default class Controls extends Component {
   constructor() {
     /* 1. Initialize Ref */
     super(); 
+    this.usedBedsHospital = React.createRef();
+    this.usedBedsIcu = React.createRef();
     this.lengthOfOutbreak = React.createRef();
     this.infectionRate = React.createRef();
     this.hospitalRate = React.createRef();
@@ -13,6 +15,16 @@ export default class Controls extends Component {
     this.fatalityRate = React.createRef();
     this.hospitalStayLength = React.createRef();
     this.icuStayLength = React.createRef();
+ }
+
+ handleUsedBedsHospitalChange() {
+  const value = Number(this.usedBedsHospital.current.value)
+  this.props.updateUsedBedsHospital(value)
+ }
+
+ handleUsedBedsIcuChange() {
+  const value = Number(this.usedBedsIcu.current.value)
+  this.props.updateUsedBedsIcu(value)
  }
 
  handleLengthOfOutbreakChange() {
@@ -57,6 +69,32 @@ handleIcuStayLengthChange() {
           <InputGroup.Prepend>
             <InputGroup.Text>Days</InputGroup.Text>
           </InputGroup.Prepend>
+          <FormControl
+            ref={this.usedBedsHospital}
+            defaultValue={Defaults.usedBedsHospital}
+            onChange={() => this.handleUsedBedsHospitalChange()}
+            aria-label="Default"
+            aria-describedby="inputGroup-sizing-default"
+          />
+          <InputGroup.Append>
+            <InputGroup.Text id="inputGroup-sizing-default">Beds in Use (Hospital)</InputGroup.Text>
+          </InputGroup.Append>
+        </InputGroup>
+        
+        <InputGroup className="mb-3">
+          <FormControl
+            ref={this.usedBedsIcu}
+            defaultValue={Defaults.usedBedsIcu}
+            onChange={() => this.handleUsedBedsIcuChange()}
+            aria-label="Default"
+            aria-describedby="inputGroup-sizing-default"
+          />
+          <InputGroup.Append>
+            <InputGroup.Text id="inputGroup-sizing-default">Beds in Use (ICU)</InputGroup.Text>
+          </InputGroup.Append>
+        </InputGroup>
+        
+        <InputGroup className="mb-3">
           <FormControl
             ref={this.lengthOfOutbreak}
             defaultValue={Defaults.lengthOfOutbreak}
