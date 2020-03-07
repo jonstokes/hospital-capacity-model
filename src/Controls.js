@@ -44,7 +44,6 @@ handleFatalityRateChange() {
           <FormControl
             ref={this.lengthOfOutbreak}
             onChange={() => this.handleLengthOfOutbreakChange()}
-            defaultValue={365}
             aria-label="Default"
             aria-describedby="inputGroup-sizing-default"
           />

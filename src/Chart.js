@@ -7,8 +7,17 @@ import jstat from 'jstat';
 const hospitalStayLength = 15
 const icuStayLength = 10
 
+const hospitalRate = 20 / 100
+const icuRate = 5 / 100
+
 export default class Chart extends PureComponent {
-  computeNormalForDay(day, total) {
+  updateNewInfections() {
+    const { infections, lengthOfOutbreak } = this.props;
+    const dayRange = [...Array(lengthOfOutbreak).keys()];
+    this.newInfections = dayRange.map((day, i, array) => this.computeNewInfectionsForDay(day, infections));
+  }
+
+  computeNewInfectionsForDay(day, total) {
     const { lengthOfOutbreak } = this.props;
     const midpoint = lengthOfOutbreak / 2.0;
     const sigma = lengthOfOutbreak / 9
@@ -17,15 +26,36 @@ export default class Chart extends PureComponent {
     return(normalizedBedCount * total)
   }
 
+  computeHospitalForDay(day) {
+    const array = this.newInfections;
+    let infectionsStillInHospital = 0;
+
+    [...Array(hospitalStayLength).keys()].forEach(offset => {
+      infectionsStillInHospital += (array[day - offset] ? array[day - offset] : 0) * hospitalRate
+    })
+    return Math.round(infectionsStillInHospital);
+  }
+
+  computeIcuForDay(day) {
+    const array = this.newInfections;
+    let infectionsStillIcu = 0;
+
+    [...Array(icuStayLength).keys()].forEach(offset => {
+      infectionsStillIcu += (array[day - offset] ? array[day - offset] : 0) * icuRate
+    })
+
+    return Math.round(infectionsStillIcu);
+  }
+
   generateData() {
+    this.updateNewInfections();
+
     const { hospital, icu, deaths, lengthOfOutbreak } = this.props;
-    const dayRange = [...Array(lengthOfOutbreak).keys()];
-    const bedData = dayRange.map((day) => {
+    const bedData = this.newInfections.map((newInfectionCount, day) => {
       return({ 
         name: day,
-        hospital: Math.round(this.computeNormalForDay(day, hospital * hospitalStayLength)),
-        icu: Math.round(this.computeNormalForDay(day, icu * icuStayLength)),
-        deaths: this.computeNormalForDay(day, deaths)
+        hospital: this.computeHospitalForDay(day),
+        icu: this.computeIcuForDay(day)
       })
     });
     return bedData
@@ -35,7 +65,6 @@ export default class Chart extends PureComponent {
     const bedData = this.generateData();
     const reducer = (accumulator, currentValue) => accumulator + currentValue.hospital;
     const totalHospital = bedData.reduce(reducer, 0);
-    console.log(this.props)
     console.log(totalHospital / 15)
 
     return (
@@ -59,8 +88,8 @@ export default class Chart extends PureComponent {
           <Tooltip />
           <ReferenceLine y={900000} label="All Beds" stroke="red" strokeDasharray="3 3" />
           <ReferenceLine y={90000} label="ICU Beds" stroke="red" strokeDasharray="3 3" />
-          <Area type="monotone" dataKey="icu" stackId="2" stroke="#82ca9d" fill="#82ca9d" />
           <Area type="monotone" dataKey="hospital" stackId="1" stroke="#8884d8" fill="#8884d8" />
+          <Area type="monotone" dataKey="icu" stackId="2" stroke="#82ca9d" fill="#82ca9d" />
         </AreaChart>
       </ResponsiveContainer>
     );
