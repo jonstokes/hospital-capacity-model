@@ -55,22 +55,6 @@ handleIcuStayLengthChange() {
       <div style={{ width: '30rem' }}>
         <InputGroup className="mb-3">
           <InputGroup.Prepend>
-            <InputGroup.Text>Days</InputGroup.Text>
-          </InputGroup.Prepend>
-          <FormControl
-            ref={this.lengthOfOutbreak}
-            defaultValue={Defaults.lengthOfOutbreak}
-            onChange={() => this.handleLengthOfOutbreakChange()}
-            aria-label="Default"
-            aria-describedby="inputGroup-sizing-default"
-          />
-          <InputGroup.Append>
-            <InputGroup.Text id="inputGroup-sizing-default">Length of Outbreak</InputGroup.Text>
-          </InputGroup.Append>
-        </InputGroup>
-
-        <InputGroup className="mb-3">
-          <InputGroup.Prepend>
             <InputGroup.Text>%</InputGroup.Text>
           </InputGroup.Prepend>
           <FormControl
@@ -130,6 +114,22 @@ handleIcuStayLengthChange() {
           />
           <InputGroup.Append>
             <InputGroup.Text id="inputGroup-sizing-default">Case fatality rate</InputGroup.Text>
+          </InputGroup.Append>
+        </InputGroup>
+
+        <InputGroup className="mb-3">
+          <InputGroup.Prepend>
+            <InputGroup.Text>Days</InputGroup.Text>
+          </InputGroup.Prepend>
+          <FormControl
+            ref={this.lengthOfOutbreak}
+            defaultValue={Defaults.lengthOfOutbreak}
+            onChange={() => this.handleLengthOfOutbreakChange()}
+            aria-label="Default"
+            aria-describedby="inputGroup-sizing-default"
+          />
+          <InputGroup.Append>
+            <InputGroup.Text id="inputGroup-sizing-default">Length of Outbreak</InputGroup.Text>
           </InputGroup.Append>
         </InputGroup>
 
