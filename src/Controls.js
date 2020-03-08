@@ -6,18 +6,17 @@ export default class Controls extends Component {
   constructor() {
     /* 1. Initialize Ref */
     super(); 
-    this.lengthOfOutbreak = React.createRef();
+    this.daysInfected = React.createRef();
     this.infectionRate = React.createRef();
-    this.hospitalRate = React.createRef();
-    this.icuRate = React.createRef();
-    this.fatalityRate = React.createRef();
-    this.hospitalStayLength = React.createRef();
-    this.icuStayLength = React.createRef();
+    this.fractionCritical = React.createRef();
+    this.fractionDeadIcu = React.createRef();
+    this.fractionDeadHospital = React.createRef();
+    this.fractionDeadHome = React.createRef();
  }
 
- handleLengthOfOutbreakChange() {
-    const value = Number(this.lengthOfOutbreak.current.value)
-    this.props.updateLengthOfOutbreak(value)
+ handleDaysInfectedChange() {
+    const value = Number(this.daysInfected.current.value)
+    this.props.updateDaysInfected(value)
  }
 
  handleInfectionRateChange() {
@@ -25,29 +24,24 @@ export default class Controls extends Component {
   this.props.updateInfectionRate(value)
 }
 
- handleHospitalRateChange() {
-  const value = Number(this.hospitalRate.current.value)
-  this.props.updateHospitalRate(value)
+ handleFractionCriticalChange() {
+  const value = Number(this.fractionCritical.current.value)
+  this.props.updateFractionCritical(value)
 }
 
-handleIcuRateChange() {
-  const value = Number(this.icuRate.current.value)
-  this.props.updateIcuRate(value)
+handleFractionDeadIcuChange() {
+  const value = Number(this.fractionDeadIcu.current.value)
+  this.props.updateFractionDeadIcu(value)
 }
 
-handleFatalityRateChange() {
-  const value = Number(this.fatalityRate.current.value)
-  this.props.updateFatalityRate(value)
+handleFractionDeadHospitalChange() {
+  const value = Number(this.fractionDeadHospital.current.value)
+  this.props.updateFractionDeadHospital(value)
 }
 
-handleHospitalStayLengthChange() {
-  const value = Number(this.hospitalStayLength.current.value)
-  this.props.updateHospitalStayLength(value)
-}
-
-handleIcuStayLengthChange() {
-  const value = Number(this.icuStayLength.current.value)
-  this.props.updateIcuStayLength(value)
+handleFractionDeadHomeChange() {
+  const value = Number(this.fractionDeadHome.current.value)
+  this.props.updateFractionDeadHome(value)
 }
 
  render() {   
@@ -58,21 +52,18 @@ handleIcuStayLengthChange() {
             <InputGroup.Text>Days</InputGroup.Text>
           </InputGroup.Prepend>
           <FormControl
-            ref={this.lengthOfOutbreak}
-            defaultValue={Defaults.lengthOfOutbreak}
-            onChange={() => this.handleLengthOfOutbreakChange()}
+            ref={this.daysInfected}
+            defaultValue={Defaults.daysInfected}
+            onChange={() => this.handleDaysInfectedChange()}
             aria-label="Default"
             aria-describedby="inputGroup-sizing-default"
           />
           <InputGroup.Append>
-            <InputGroup.Text id="inputGroup-sizing-default">Length of Outbreak</InputGroup.Text>
+            <InputGroup.Text id="inputGroup-sizing-default">Infected before recovery or death</InputGroup.Text>
           </InputGroup.Append>
         </InputGroup>
 
         <InputGroup className="mb-3">
-          <InputGroup.Prepend>
-            <InputGroup.Text>%</InputGroup.Text>
-          </InputGroup.Prepend>
           <FormControl
             ref={this.infectionRate}
             defaultValue={Defaults.infectionRate}
@@ -81,87 +72,71 @@ handleIcuStayLengthChange() {
             aria-describedby="inputGroup-sizing-default"
           />
           <InputGroup.Append>
-            <InputGroup.Text id="inputGroup-sizing-default">Infection rate</InputGroup.Text>
+            <InputGroup.Text id="inputGroup-sizing-default">New infections produced by each infectious person (R0)</InputGroup.Text>
           </InputGroup.Append>
         </InputGroup>
 
         <InputGroup className="mb-3">
           <InputGroup.Prepend>
-          <InputGroup.Text>%</InputGroup.Text>
+          <InputGroup.Text>Fraction</InputGroup.Text>
           </InputGroup.Prepend>
           <FormControl
-            ref={this.hospitalRate}
-            defaultValue={Defaults.hospitalRate}
-            onChange={() => this.handleHospitalRateChange()}
+            ref={this.fractionCritical}
+            defaultValue={Defaults.fractionCritical}
+            onChange={() => this.handleFractionCriticalChange()}
             aria-label="Default"
             aria-describedby="inputGroup-sizing-default"
           />
           <InputGroup.Append>
-            <InputGroup.Text id="inputGroup-sizing-default">Hospitalization rate</InputGroup.Text>
+            <InputGroup.Text id="inputGroup-sizing-default">Infections needing critical care</InputGroup.Text>
           </InputGroup.Append>
         </InputGroup>
 
         <InputGroup className="mb-3">
           <InputGroup.Prepend>
-            <InputGroup.Text>%</InputGroup.Text>
+            <InputGroup.Text>Fraction</InputGroup.Text>
           </InputGroup.Prepend>
           <FormControl
-            ref={this.icuRate}
-            defaultValue={Defaults.icuRate}
-            onChange={() => this.handleIcuRateChange()}
+            ref={this.fractionDeadIcu}
+            defaultValue={Defaults.fractionDeadIcu}
+            onChange={() => this.handleFractionDeadIcuChange()}
             aria-label="Default"
             aria-describedby="inputGroup-sizing-default"
           />
           <InputGroup.Append>
-            <InputGroup.Text id="inputGroup-sizing-default">ICU rate</InputGroup.Text>
+            <InputGroup.Text id="inputGroup-sizing-default">Critical cases dying with ICU care</InputGroup.Text>
           </InputGroup.Append>
         </InputGroup>
 
         <InputGroup className="mb-3">
           <InputGroup.Prepend>
-            <InputGroup.Text>%</InputGroup.Text>
+            <InputGroup.Text>Fraction</InputGroup.Text>
           </InputGroup.Prepend>
           <FormControl
-            ref={this.fatalityRate}
-            defaultValue={Defaults.fatalityRate}
-            onChange={() => this.handleFatalityRateChange()}  
+            ref={this.fractionDeadHospital}
+            defaultValue={Defaults.fractionDeadHospital}
+            onChange={() => this.handleFractionDeadHospitalChange()}
             aria-label="Default"
             aria-describedby="inputGroup-sizing-default"
           />
           <InputGroup.Append>
-            <InputGroup.Text id="inputGroup-sizing-default">Case fatality rate</InputGroup.Text>
+            <InputGroup.Text id="inputGroup-sizing-default">Critical cases dying with hospital care</InputGroup.Text>
           </InputGroup.Append>
         </InputGroup>
 
         <InputGroup className="mb-3">
           <InputGroup.Prepend>
-            <InputGroup.Text>Days</InputGroup.Text>
+            <InputGroup.Text>Fraction</InputGroup.Text>
           </InputGroup.Prepend>
           <FormControl
-            ref={this.hospitalStayLength}
-            defaultValue={Defaults.hospitalStayLength}
-            onChange={() => this.handleHospitalStayLengthChange()}  
+            ref={this.fractionDeadHome}
+            defaultValue={Defaults.fractionDeadHome}
+            onChange={() => this.handleFractionDeadHomeChange()}
             aria-label="Default"
             aria-describedby="inputGroup-sizing-default"
           />
           <InputGroup.Append>
-            <InputGroup.Text id="inputGroup-sizing-default">Hospital stay</InputGroup.Text>
-          </InputGroup.Append>
-        </InputGroup>
-
-        <InputGroup className="mb-3">
-          <InputGroup.Prepend>
-            <InputGroup.Text>Days</InputGroup.Text>
-          </InputGroup.Prepend>
-          <FormControl
-            ref={this.icuStayLength}
-            defaultValue={Defaults.icuStayLength}
-            onChange={() => this.handleIcuStayLengthChange()}  
-            aria-label="Default"
-            aria-describedby="inputGroup-sizing-default"
-          />
-          <InputGroup.Append>
-            <InputGroup.Text id="inputGroup-sizing-default">ICU stay</InputGroup.Text>
+            <InputGroup.Text id="inputGroup-sizing-default">Critical cases dying with home care</InputGroup.Text>
           </InputGroup.Append>
         </InputGroup>
       </div>

@@ -2,72 +2,41 @@ import React, { Component } from 'react';
 import { Card, Figure } from 'react-bootstrap'
 import Chart from './Chart.js'
 import Controls from './Controls.js'
-import Results from './Results.js'
 import Defaults from './Defaults.js'
 
 export default class MainPanel extends Component {
   constructor() {
     super(); 
     this.state = Defaults;
-
-    this.population = 327000000.0
+    this.population = 327000000.0;
   }
 
-  updateLengthOfOutbreak = (value) => {
-    this.setState({ lengthOfOutbreak: value })
-  }
+  updateDaysInfected = (value) => {
+    this.setState({ daysInfected: value });
+  };
 
   updateInfectionRate = (value) => {
-    this.setState({ infectionRate: value })
-  }
+    this.setState({ infectionRate: value });
+  };
 
-  updateHospitalRate = (value) => {
-    this.setState({ hospitalRate: value })
-  }
+  updateFractionCritical = (value) => {
+    this.setState({ fractionCritical: value });
+  };
 
-  updateIcuRate = (value) => {
-    this.setState({ icuRate: value })
-  }
+  updateFractionDeadIcu = (value) => {
+    this.setState({ fractionDeadIcu: value });
+  };
 
-  updateFatalityRate = (value) => {
-    this.setState({ fatalityRate: value })
-  }
+  updateFractionDeadHospital = (value) => {
+    this.setState({ fractionDeadHospital: value });
+  };
 
-  updateHospitalStayLength = (value) => {
-    this.setState({ hospitalStayLength: value })
-  }
-
-  updateIcuStayLength = (value) => {
-    this.setState({ icuStayLength: value })
-  }
-
-  infections() {
-    const infectionRate = this.state.infectionRate / 100
-    return this.population * infectionRate
-  }
-
-  hospital() {
-    const hospitalRate = this.state.hospitalRate / 100
-
-    return this.infections() * hospitalRate
-  }
-
-  icu() {
-    const icuRate = this.state.icuRate / 100
-
-    return this.infections() * icuRate
-  }
-
-  deaths() {
-    const fatalityRate = this.state.fatalityRate / 100
-
-    return this.infections() * fatalityRate
-  }
+  updateFractionDeadHome = (value) => {
+    this.setState({ fractionDeadHome: value });
+  };
 
   render() {
-    const { lengthOfOutbreak, hospitalStayLength, icuStayLength } = this.state;
-    const hospitalRate = this.state.hospitalRate / 100
-    const icuRate = this.state.icuRate / 100
+    const { daysInfected, infectionRate, fractionCritical, fractionDeadIcu, fractionDeadHospital, fractionDeadHome } = this.state;
 
     return (
       <Card style={{ width: '50rem' }}>
@@ -83,34 +52,23 @@ export default class MainPanel extends Component {
             height="100%"
           >
             <Chart
-              lengthOfOutbreak={lengthOfOutbreak}
-              infections={this.infections()}
-              hospitalRate={hospitalRate}
-              icuRate={icuRate}
-              hospitalStayLength={hospitalStayLength}
-              icuStayLength={icuStayLength}
-              deaths={this.deaths()}
+              population={this.population}
+              daysInfected={daysInfected}
+              infectionRate={infectionRate}
+              fractionCritical={fractionCritical}
+              fractionDeadIcu={fractionDeadIcu}
+              fractionDeadHospital={fractionDeadHospital}
+              fractionDeadHome={fractionDeadHome}
             />
           </Figure>
           <Figure>
-            <div style={{ width: '30rem', paddingTop: '1rem' }}>
-              <Results
-                infections={this.infections()}
-                hospital={this.hospital()}
-                icu={this.icu()}
-                deaths={this.deaths()}
-              />
-            </div>
-          </Figure>
-          <Figure>
             <Controls 
-              updateLengthOfOutbreak={this.updateLengthOfOutbreak}
+              updateDaysInfected={this.updateDaysInfected}
               updateInfectionRate={this.updateInfectionRate}
-              updateHospitalRate={this.updateHospitalRate}
-              updateIcuRate={this.updateIcuRate}
-              updateFatalityRate={this.updateFatalityRate}
-              updateIcuStayLength={this.updateIcuStayLength}
-              updateHospitalStayLength={this.updateHospitalStayLength}
+              updateFractionCritical={this.updateFractionCritical}
+              updateFractionDeadIcu={this.updateFractionDeadIcu}
+              updateFractionDeadHospital={this.updateFractionDeadHospital}
+              updateFractionDeadHome={this.updateFractionDeadHome}
             />
           </Figure>
         </Card.Body>
