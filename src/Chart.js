@@ -1,93 +1,157 @@
-import React, { PureComponent } from 'react';
+import React, { PureComponent, Fragment } from 'react';
 import {
-  AreaChart, Area, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer, ReferenceLine
+  AreaChart, Area, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer, ReferenceLine, Line, LineChart
 } from 'recharts';
-import jstat from 'jstat';
+
+import Results from './Results.js'
 
 export default class Chart extends PureComponent {
-  updateNewInfections() {
-    const { infections, lengthOfOutbreak } = this.props;
-    const dayRange = [...Array(lengthOfOutbreak).keys()];
-    this.newInfections = dayRange.map((day, i, array) => this.computeNewInfectionsForDay(day, infections));
+
+  initialize() {
+    const { population } = this.props;
+    this.totalInfections = 1;
+    this.totalCritical = 0;
+    this.totalDeaths = 0;
+    this.state = {
+      day: 1,
+      S: population - 1,
+      I: 1,
+      R: 0,
+      D: 0,
+    };
+    this.data = [
+      {
+        day: 1,
+        infections: 1,
+        critical: 0,
+        deaths: 0,
+      }
+    ];
   }
 
-  computeNewInfectionsForDay(day, total) {
-    const { lengthOfOutbreak } = this.props;
-    const midpoint = lengthOfOutbreak / 2.0;
-    const sigma = lengthOfOutbreak / 9
-    const normalizedBedCount = jstat.normal.pdf(day, midpoint, sigma);
+  computeNextDayResults() {
+    const { day, S, I, R, D } = this.state;
+    const icuBeds = 90000;
+    const hospitalBeds = 900000 - icuBeds;
+    const {
+      population,
+      daysInfected,
+      infectionRate,
+      fractionCritical,
+      fractionDeadIcu,
+      fractionDeadHospital,
+      fractionDeadHome,
+      startDay,
+      endDay,
+      containedInfectionRate,
+    } = this.props;
 
-    return(normalizedBedCount * total)
-  }
+    let daysBetweenContacts = daysInfected / infectionRate;
+    if ((day >= startDay) && (day < endDay)) {
+      daysBetweenContacts = daysInfected / containedInfectionRate;
+    }
 
-  computeHospitalForDay(day) {
-    const array = this.newInfections;
-    const { hospitalStayLength } = this.props;
-    let infectionsStillInHospital = 0;
+    // Cases going from susceptible --> infected
+    const newInfections = (I * S) / (population * daysBetweenContacts);
 
-    [...Array(hospitalStayLength).keys()].forEach(offset => {
-      infectionsStillInHospital += (array[day - offset] ? array[day - offset] : 0) * this.props.hospitalRate
-    })
-    return Math.round(infectionsStillInHospital);
-  }
+    // Cases going from infected --> recovered
+    const recoveredInfections = (I / daysInfected) * (1 - fractionCritical);
 
-  computeIcuForDay(day) {
-    const array = this.newInfections;
-    const { icuStayLength } = this.props;
-    let infectionsStillIcu = 0;
+    // For critical cases, we split into ICU, hospital, and home care, in descending order
+    const C = I * fractionCritical;
+    const CIcu = Math.min(C, icuBeds);
+    const CHospital = C > icuBeds ? Math.min(C - icuBeds, hospitalBeds) : 0;
+    const CHome = C > (icuBeds + hospitalBeds) ? C - (icuBeds + hospitalBeds) : 0;
 
-    [...Array(icuStayLength).keys()].forEach(offset => {
-      infectionsStillIcu += (array[day - offset] ? array[day - offset] : 0) * this.props.icuRate
-    })
+    // Cases going from critical --> recovered
+    const recoveredCritical =
+      ((CIcu / daysInfected) * (1 - fractionDeadIcu)) +
+      ((CHospital / daysInfected) * (1 - fractionDeadHospital)) +
+      ((CHome / daysInfected) * (1 - fractionDeadHome));
 
-    return Math.round(infectionsStillIcu);
+    // Cases going from critical --> dead
+    const deadCritical =
+      ((CIcu / daysInfected) * fractionDeadIcu) +
+      ((CHospital / daysInfected) * fractionDeadHospital) +
+      ((CHome / daysInfected) * fractionDeadHome);
+
+    // Update total results
+    this.totalInfections = this.totalInfections + newInfections;
+    this.totalCritical = this.totalCritical + newInfections * fractionCritical;
+    this.totalDeaths = this.totalDeaths + deadCritical;
+
+    const newS = S - newInfections;
+    const newI = I + newInfections - recoveredInfections - recoveredCritical - deadCritical;
+    const newR = R + recoveredInfections + recoveredCritical;
+    const newD = D + deadCritical;
+
+    // Update results over time
+    this.data.push({
+      day: day + 1,
+      infections: Math.round(newI),
+      critical: Math.round(newI * fractionCritical),
+      deaths: Math.round(newD),
+    });
+
+    // Update final state
+    this.state = {
+      day: day + 1,
+      S: newS,
+      I: newI,
+      R: newR,
+      D: newD,
+    }
   }
 
   generateData() {
-    this.updateNewInfections();
-
-    const { hospital, icu, deaths, lengthOfOutbreak } = this.props;
-    const bedData = this.newInfections.map((newInfectionCount, day) => {
-      return({ 
-        name: day,
-        hospital: this.computeHospitalForDay(day),
-        icu: this.computeIcuForDay(day)
-      })
-    });
-    return bedData
+    this.initialize();
+    while (((this.state["I"] >= 20) | (this.state["day"] <= 60)) && (this.state["day"] <= (365 * 2))) {
+      this.computeNextDayResults();
+    }
+    console.log(this.state);
   }
 
   render() {
-    const bedData = this.generateData();
-    const reducer = (accumulator, currentValue) => accumulator + currentValue.hospital;
-    const totalHospital = bedData.reduce(reducer, 0);
-    console.log(totalHospital / 15)
+    this.generateData();
 
     return (
-      <ResponsiveContainer width={700} height={500}>
+      <Fragment>
+      <ResponsiveContainer width={800} height={500}>
         <AreaChart
-          width={500}
+          width={600}
           height={400}
-          data={bedData}
+          data={this.data}
           margin={{
-            top: 10, right: 20, left: 20, bottom: 0,
+            top: 10, right: 20, left: 30, bottom: 20,
           }}
         >
           <CartesianGrid strokeDasharray="3 3" />
-          <XAxis 
-            dataKey="name"
+          <XAxis
+            dataKey="day"
             allowDecimals={false}
+            //label="Days Since First Case"
           />
-          <YAxis 
+          <YAxis
+            //scale="log"
+            type="number"
+            domain={[0, 150000]}
             allowDecimals={false}
           />
           <Tooltip />
-          <ReferenceLine y={900000} label="All Beds" stroke="red" strokeDasharray="3 3" />
-          <ReferenceLine y={90000} label="ICU Beds" stroke="red" strokeDasharray="3 3" />
-          <Area type="monotone" dataKey="hospital" stackId="1" stroke="#8884d8" fill="#8884d8" />
-          <Area type="monotone" dataKey="icu" stackId="2" stroke="#82ca9d" fill="#82ca9d" />
+          <ReferenceLine y={900000} label="All Hospital Beds Available" stroke="red" strokeDasharray="3 3" />
+          <ReferenceLine y={90000} label="ICU Beds Available" stroke="red" strokeDasharray="3 3" />
+          <Area type="monotone" dataKey="infections" stackId="1" stroke="#8884d8" fill="#8884d8" />
+          <Area type="monotone" dataKey="critical" stackId="2" stroke="#82ca9d" fill="#82ca9d" />
+          <Area type="monotone" dataKey="deaths" stackId="3" stroke="#e0795d" fill="#e0795d" />
         </AreaChart>
       </ResponsiveContainer>
+      <Results
+        total={Math.round(this.props["population"])}
+        infections={Math.round(this.totalInfections)}
+        critical={Math.round(this.totalCritical)}
+        deaths={Math.round(this.totalDeaths)}
+      />
+      </Fragment>
     );
   }
 }
