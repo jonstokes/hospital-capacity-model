@@ -35,8 +35,30 @@ export default class MainPanel extends Component {
     this.setState({ fractionDeadHome: value });
   };
 
+  updateStartDay = (value) => {
+    this.setState({ startDay: value });
+  };
+
+  updateEndDay = (value) => {
+    this.setState({ endDay: value });
+  };
+
+  updateContainedInfectionRate = (value) => {
+    this.setState({ containedInfectionRate: value });
+  };
+
   render() {
-    const { daysInfected, infectionRate, fractionCritical, fractionDeadIcu, fractionDeadHospital, fractionDeadHome } = this.state;
+    const {
+      daysInfected,
+      infectionRate,
+      fractionCritical,
+      fractionDeadIcu,
+      fractionDeadHospital,
+      fractionDeadHome,
+      startDay,
+      endDay,
+      containedInfectionRate,
+    } = this.state;
 
     return (
       <Card style={{ width: '50rem' }}>
@@ -59,6 +81,9 @@ export default class MainPanel extends Component {
               fractionDeadIcu={fractionDeadIcu}
               fractionDeadHospital={fractionDeadHospital}
               fractionDeadHome={fractionDeadHome}
+              startDay={startDay}
+              endDay={endDay}
+              containedInfectionRate={containedInfectionRate}
             />
           </Figure>
           <Figure>
@@ -69,6 +94,9 @@ export default class MainPanel extends Component {
               updateFractionDeadIcu={this.updateFractionDeadIcu}
               updateFractionDeadHospital={this.updateFractionDeadHospital}
               updateFractionDeadHome={this.updateFractionDeadHome}
+              updateStartDay={this.updateStartDay}
+              updateEndDay={this.updateEndDay}
+              updateContainedInfectionRate={this.updateContainedInfectionRate}
             />
           </Figure>
         </Card.Body>

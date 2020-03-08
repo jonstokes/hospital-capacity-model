@@ -15,4 +15,7 @@ export default {
   fractionDeadIcu: 0.05,
   fractionDeadHospital: 0.10,
   fractionDeadHome: 0.40,
+  startDay: 60,
+  endDay: 120,
+  containedInfectionRate: 0.9,
 }

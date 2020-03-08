@@ -12,6 +12,9 @@ export default class Controls extends Component {
     this.fractionDeadIcu = React.createRef();
     this.fractionDeadHospital = React.createRef();
     this.fractionDeadHome = React.createRef();
+    this.startDay = React.createRef();
+    this.endDay = React.createRef();
+    this.containedInfectionRate = React.createRef();
  }
 
  handleDaysInfectedChange() {
@@ -42,6 +45,21 @@ handleFractionDeadHospitalChange() {
 handleFractionDeadHomeChange() {
   const value = Number(this.fractionDeadHome.current.value)
   this.props.updateFractionDeadHome(value)
+}
+
+handleStartDayChange() {
+  const value = Number(this.startDay.current.value)
+  this.props.updateStartDay(value)
+}
+
+handleEndDayChange() {
+  const value = Number(this.endDay.current.value)
+  this.props.updateEndDay(value)
+}
+
+handleContainedInfectionRateChange() {
+  const value = Number(this.containedInfectionRate.current.value)
+  this.props.updateContainedInfectionRate(value)
 }
 
  render() {   
@@ -137,6 +155,52 @@ handleFractionDeadHomeChange() {
           />
           <InputGroup.Append>
             <InputGroup.Text id="inputGroup-sizing-default">Critical cases dying with home care</InputGroup.Text>
+          </InputGroup.Append>
+        </InputGroup>
+
+        <hr/>
+        <InputGroup className="mb-3">
+          <InputGroup.Prepend>
+            <InputGroup.Text>Day</InputGroup.Text>
+          </InputGroup.Prepend>
+          <FormControl
+            ref={this.startDay}
+            defaultValue={Defaults.startDay}
+            onChange={() => this.handleStartDayChange()}
+            aria-label="Default"
+            aria-describedby="inputGroup-sizing-default"
+          />
+          <InputGroup.Append>
+            <InputGroup.Text id="inputGroup-sizing-default">Beginning infection control measures</InputGroup.Text>
+          </InputGroup.Append>
+        </InputGroup>
+
+        <InputGroup className="mb-3">
+          <InputGroup.Prepend>
+            <InputGroup.Text>Day</InputGroup.Text>
+          </InputGroup.Prepend>
+          <FormControl
+            ref={this.endDay}
+            defaultValue={Defaults.endDay}
+            onChange={() => this.handleEndDayChange()}
+            aria-label="Default"
+            aria-describedby="inputGroup-sizing-default"
+          />
+          <InputGroup.Append>
+            <InputGroup.Text id="inputGroup-sizing-default">Ending infection control measures</InputGroup.Text>
+          </InputGroup.Append>
+        </InputGroup>
+
+        <InputGroup className="mb-3">
+          <FormControl
+            ref={this.containedInfectionRate}
+            defaultValue={Defaults.containedInfectionRate}
+            onChange={() => this.handleContainedInfectionRateChange()}
+            aria-label="Default"
+            aria-describedby="inputGroup-sizing-default"
+          />
+          <InputGroup.Append>
+            <InputGroup.Text id="inputGroup-sizing-default">New infections per person (R0) under control measures </InputGroup.Text>
           </InputGroup.Append>
         </InputGroup>
       </div>

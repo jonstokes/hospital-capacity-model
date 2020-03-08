@@ -33,9 +33,23 @@ export default class Chart extends PureComponent {
     const { day, S, I, R, D } = this.state;
     const icuBeds = 90000;
     const hospitalBeds = 900000 - icuBeds;
-    const { population, daysInfected, infectionRate, fractionCritical, fractionDeadIcu, fractionDeadHospital, fractionDeadHome } = this.props;
-    const daysBetweenContacts = daysInfected / infectionRate;
+    const {
+      population,
+      daysInfected,
+      infectionRate,
+      fractionCritical,
+      fractionDeadIcu,
+      fractionDeadHospital,
+      fractionDeadHome,
+      startDay,
+      endDay,
+      containedInfectionRate,
+    } = this.props;
 
+    let daysBetweenContacts = daysInfected / infectionRate;
+    if ((day >= startDay) && (day < endDay)) {
+      daysBetweenContacts = daysInfected / containedInfectionRate;
+    }
 
     // Cases going from susceptible --> infected
     const newInfections = (I * S) / (population * daysBetweenContacts);
